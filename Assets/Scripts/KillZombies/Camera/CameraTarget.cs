@@ -6,13 +6,14 @@ using UnityEngine;
 
 public class CameraTarget : MonoBehaviour
 {
-    public Character character;
+    private const float Distance = 20f; //相机跟随目标距离人物的平面距离
 
-    // Update is called once per frame
+    public Character character;
+    
     void Update()
     {
         var cameraForward = Game.Instance.cameraMgr.virtualCamera.transform.forward;
 
-        transform.position = character.transform.position - new Vector3(cameraForward.x, 0, cameraForward.z) * 15;
+        transform.position = character.transform.position - new Vector3(cameraForward.x, 0, cameraForward.z) * Distance;
     }
 }

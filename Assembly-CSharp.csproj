@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\KillZombies\Map\Map.cs" />
      <Compile Include="Assets\Scripts\KillZombies\Camera\CameraTarget.cs" />
      <Compile Include="Assets\Scripts\KillZombies\Map\Grid.cs" />
+     <Compile Include="Assets\Scripts\KillZombies\Unit\Common.cs" />
      <Compile Include="Assets\Scripts\KillZombies\Managers\CameraMgr.cs" />
      <Compile Include="Assets\Scripts\KillZombies\Managers\InputMgr.cs" />
      <Folder Include="Assets" />
@@ -98,6 +99,7 @@
      <Folder Include="Library\PackageCache\com.unity.render-pipelines.universal@15.0.6\Tests" />
      <None Include="Library\PackageCache\com.unity.modules.cloth@1.0.0\package.json" />
      <None Include="Library\PackageCache\com.unity.entities@1.0.14\Editor Default Resources\uss\Controls\TabView\tab-view_light.uss" />
+     <Folder Include="Assets\InputAction" />
      <Folder Include="Library\PackageCache\com.unity.entities@1.0.14\Editor Default Resources\icons\light\System" />
      <None Include="Library\PackageCache\com.unity.test-framework.performance@3.0.2\package.json" />
      <Folder Include="Library\PackageCache\com.unity.entities@1.0.14\Editor Default Resources\uxml\ActiveBuildConfiguration" />
@@ -382,7 +384,6 @@
      <None Include="Library\PackageCache\com.unity.visualscripting@1.8.0\ValidationExceptions.json" />
      <None Include="Library\PackageCache\com.unity.entities@1.0.14\Editor Default Resources\uxml\Common\centered-message-element.uxml" />
      <Folder Include="Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0" />
-     <Folder Include="Assets\Prefabs" />
      <Folder Include="Library\PackageCache\com.unity.modules.particlesystem@1.0.0" />
      <None Include="Library\PackageCache\com.unity.entities@1.0.14\Editor Default Resources\uss\Inspector\entity-field.uss" />
      <Folder Include="Assets\SimpleApocalypse\Textures\Bodies" />
@@ -1552,9 +1553,6 @@
       <Project>{85a37af8-752b-22d1-c789-ba9e7188d1cc}</Project>
       <Name>Unity.RenderPipelines.Universal.2D.Runtime</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\InputAction\characterAction.inputactions" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

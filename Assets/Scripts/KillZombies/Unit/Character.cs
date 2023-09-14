@@ -13,8 +13,8 @@ namespace KillZombies.Unit
         public Vector3 direction;
 
         private float moveSpeed = 5f;
-        private float gravity = -600f;
-        private float jumpStrength = 400f;
+        private float gravity = -10f;
+        public float jumpStrength = 5f;
 
         private void Awake()
         {
@@ -24,11 +24,13 @@ namespace KillZombies.Unit
         private void Update()
         {
             direction = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0) *
-                        new Vector3(inputMovement.x, 0, inputMovement.y);
-            // if (!controller.isGrounded)
-            // {
-            //     movement.y = gravity * Time.deltaTime;
-            // }
+                        new Vector3(inputMovement.x, direction.y, inputMovement.y);
+            if (!controller.isGrounded)
+            {
+                direction.y += gravity * Time.deltaTime;
+                animator.SetBool("Jump_b", direction.y > 0);
+            }
+
 
             //向右旋转60度
             Turn();

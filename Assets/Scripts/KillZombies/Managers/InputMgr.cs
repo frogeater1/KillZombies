@@ -10,7 +10,6 @@ public class InputMgr : MonoBehaviour
     {
         //转化为Vector3
         Vector2 input = value.Get<Vector2>();
-        Debug.Log(input);
         Game.Instance.character.inputMovement = input;
     }
 
