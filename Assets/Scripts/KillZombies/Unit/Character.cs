@@ -1,41 +1,62 @@
+using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace KillZombies.Unit
 {
     public class Character : Unit
     {
-        public CharacterController controller;
         public Vector2 inputMovement;
-        public Animator animator;
+        public float jumpStrength;
 
-        public Vector3 direction;
-
-        private float moveSpeed = 5f;
-        private float gravity = -10f;
-        public float jumpStrength = 5f;
-
-        private void Awake()
+        public override void Init()
         {
-            animator = GetComponent<Animator>();
+            base.Init();
+            moveSpeed = 5f;
+            jumpStrength = 5f;
+
+            //tmp
+            curWeaponType = WeaponType.Gun;
         }
 
-        private void Update()
+        public override void Move()
         {
-            direction = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0) *
+            direction = Quaternion.Euler(0, Game.Instance.cameraMgr.mainCamera.transform.rotation.eulerAngles.y, 0) *
                         new Vector3(inputMovement.x, direction.y, inputMovement.y);
-            if (!controller.isGrounded)
+            if (!IsGrounded())
             {
-                direction.y += gravity * Time.deltaTime;
+                direction.y += gravity * Common.TickTime;
                 animator.SetBool("Jump_b", direction.y > 0);
             }
+            else
+            {
+                if (direction.y < 0)
+                    direction.y = 0;
+            }
 
-
-            //向右旋转60度
             Turn();
-            controller.Move(moveSpeed * Time.deltaTime * direction);
-            animator.SetFloat("Speed_f", inputMovement.magnitude * moveSpeed);
+            rb.position = transform.position + moveSpeed * Common.TickTime * direction;
+            animator.SetFloat("Speed_f", moveSpeed * direction.magnitude);
+        }
+
+        public override void PlayAnim(FSMState state)
+        {
+            switch (state)
+            {
+                case FSMState.Idle:
+                    // weapons[curWeaponType].SetTrans(FSMState.Idle);
+                    animator.CrossFadeInFixedTime("NoWeapon", 0.1f);
+                    break;
+                case FSMState.Attack:
+                    // weapons[curWeaponType].SetTrans(FSMState.Attack);
+                    animator.CrossFadeInFixedTime(weapons[curWeaponType].action, 0.1f);
+                    break;
+                case FSMState.Death:
+                    animator.CrossFadeInFixedTime("Death", 0.1f);
+                    break;
+            }
         }
 
         private void Turn()
@@ -46,12 +67,15 @@ namespace KillZombies.Unit
 
         public void Jump()
         {
-            Debug.Log("Jump");
-            if (controller.isGrounded)
+            if (IsGrounded())
             {
-                Debug.Log("isGrounded");
                 direction.y = jumpStrength;
             }
+        }
+
+        public void Fire()
+        {
+            fsmCtrl.SwitchState(FSMState.Attack);
         }
     }
 }

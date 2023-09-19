@@ -12,15 +12,7 @@ namespace KillZombies.Managers
 
         private float pitch = 0;
 
-        // public void TurnRight(float x)
-        // {
-        //     virtualCamera.transform.Rotate(0, 1, 0);
-        // }
-        //
-        // public void TurnLeft(float x)
-        // {
-        //     virtualCamera.transform.Rotate(0, 1, 0);
-        // }
+        
         public void Turn(Vector2 offset)
         {
             var euler = virtualCamera.transform.eulerAngles;
