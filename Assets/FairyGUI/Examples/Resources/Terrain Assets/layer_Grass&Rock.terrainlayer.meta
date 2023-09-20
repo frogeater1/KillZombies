@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 22a02481750b841b2bd2274abb1bc498
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 49479
+  packageName: FairyGUI
+  packageVersion: 4.3.0
+  assetPath: Assets/FairyGUI/Examples/Resources/Terrain Assets/layer_Grass&Rock.terrainlayer
+  uploadId: 472545

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f584b2472e7579a48a5ed866a8e0c27a
+timeCreated: 1449045117
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 49479
+  packageName: FairyGUI
+  packageVersion: 4.3.0
+  assetPath: Assets/StreamingAssets/fairygui-examples/i8.ab
+  uploadId: 472545

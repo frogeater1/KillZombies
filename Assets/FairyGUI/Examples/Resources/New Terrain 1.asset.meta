@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 27f114bb86f17e14abdf19ec5d1fe7f0
+timeCreated: 1446642468
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 49479
+  packageName: FairyGUI
+  packageVersion: 4.3.0
+  assetPath: Assets/FairyGUI/Examples/Resources/New Terrain 1.asset
+  uploadId: 472545
