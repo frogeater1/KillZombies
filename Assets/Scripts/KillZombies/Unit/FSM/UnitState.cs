@@ -68,6 +68,11 @@ namespace KillZombies.Unit
 
         public override void OnEnter(object data)
         {
+            if (fsmCtrl.unit is Zombie zombie)
+            {
+                Debug.Log("enter idle");
+            }
+
             fsmCtrl.unit.PlayAnim(FSMState.Idle);
         }
 

@@ -6,34 +6,27 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public TrailRenderer tailRenderer;
+
     public Weapon weapon;
     public Vector3 targetPos;
 
     public bool hited;
     public bool destroyFlag;
 
-    //tmp
-    public GameObject cube;
-
-
     public void Init(Weapon w)
     {
         weapon = w;
+        if (tailRenderer)
+            tailRenderer.Clear();
         hited = false;
         destroyFlag = false;
         targetPos = weapon.transform.position + weapon.range * weapon.owner.transform.forward;
-        Instantiate(cube, targetPos, Quaternion.identity);
     }
 
 
     public void LogicalUpdate()
     {
-        if (destroyFlag)
-        {
-            Game.Instance.poolMgr.pools[weapon.bulletPrefab].Release(this);
-            return;
-        }
-
         if (transform.position == targetPos)
         {
             DelayDestroy();
@@ -41,8 +34,6 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            Debug.Log(targetPos);
-            Instantiate(cube, Vector3.MoveTowards(transform.position, targetPos, weapon.speed * Common.TickTime), Quaternion.identity);
             transform.position = Vector3.MoveTowards(transform.position, targetPos, weapon.speed * Common.TickTime);
         }
     }

@@ -2,54 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using Object = UnityEngine.Object;
 
 namespace Utilities
 {
-    public class Pool<T> : ObjectPool<T> where T : MonoBehaviour
+    public class Pool<T> where T : MonoBehaviour
     {
         public Transform container;
-        public Transform defaultParent;
+        private readonly Dictionary<T, T> _live = new();
+        private readonly Dictionary<T, ObjectPool<T>> _pool = new();
 
-        private readonly LinkedList<T> _live = new();
-
-        public Pool(T prefab, Func<T> createFunc = null, Action<T> actionOnGet = null, Action<T> actionOnRelease = null, Action<T> actionOnDestroy = null,
-            bool collectionCheck = true, int defaultCapacity = 10, int maxSize = 10000, Transform defaultParent = null, Transform container = null) : base(
-            createFunc == null ? () => MonoBehaviour.Instantiate(prefab, container) : null,
-            actionOnGet == null ? result => result.gameObject.SetActive(true) : null,
-            actionOnRelease == null ? (result) => result.gameObject.SetActive(false) : null,
-            actionOnDestroy == null ? MonoBehaviour.Destroy : null,
-            collectionCheck, defaultCapacity, maxSize)
+        public TY Get<TY>(TY prefab, Vector3 position = default, Quaternion rotation = default, Transform parent = null) where TY : T
         {
-            this.container = container;
-            this.defaultParent = defaultParent;
-        }
+            if (!_pool.TryGetValue(prefab, out var pool))
+            {
+                _pool.Add(prefab,
+                    pool = new ObjectPool<T>(createFunc: () => Object.Instantiate(prefab),
+                        actionOnRelease: obj =>
+                        {
+                            obj.gameObject.SetActive(false);
+                            obj.transform.SetParent(container);
+                            _live.Remove(obj);
+                        },
+                        actionOnDestroy: Object.Destroy));
+            }
 
-        public TY Get<TY>(Vector3 position = default, Quaternion rotation = default, Transform parent = null) where TY : T
-        {
-            var result = base.Get();
-            result.transform.SetParent(parent ? parent : defaultParent, false);
+            var result = (TY)pool.Get();
+            result.transform.SetParent(parent, false);
             result.transform.SetPositionAndRotation(position, rotation);
+            result.gameObject.SetActive(true);
             result.enabled = true;
-            _live.AddLast(result);
-            return (TY)result;
+            _live[result] = prefab;
+
+            return result;
         }
 
-        public new void Release(T obj)
+        public void Release(T obj)
         {
-            base.Release(obj);
-            if (container) obj.transform.SetParent(container);
-            _live.Remove(obj);
-        }
-
-        public new void Clear()
-        {
-            base.Clear();
-            _live.Clear();
+            _pool[_live[obj]].Release(obj);
         }
 
         public IEnumerable<T> Instances()
         {
-            return _live;
+            return _live.Keys;
+        }
+
+        public void ClearAll()
+        {
+            _live.Clear();
+
+            foreach (var pool in _pool.Values)
+            {
+                pool.Clear();
+            }
         }
     }
 }

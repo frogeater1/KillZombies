@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KillZombies.UI;
 using UnityEngine;
 
 namespace KillZombies.Unit
@@ -10,6 +11,7 @@ namespace KillZombies.Unit
         public Rigidbody rb;
         public CapsuleCollider coll;
 
+        public UI_HpSlider hpSlider;
 
         public WeaponType curWeaponType;
 
@@ -18,18 +20,15 @@ namespace KillZombies.Unit
         public Dictionary<WeaponType, Weapon> weapons = new();
 
 
-        // public readonly Dictionary<string, int> animLogicalFrameCount = new()
-        // {
-        //     { "Zombie_Attack", 35 },
-        //     { "Character_Auto_SingleShot 0", 16 }
-        // };
-
         public FSMCtrl fsmCtrl;
 
         public float gravity;
 
         public Vector3 direction;
         public float moveSpeed;
+
+        public float curHp;
+        public float maxHp;
 
 
         public virtual void Awake()
@@ -43,17 +42,13 @@ namespace KillZombies.Unit
         {
             gravity = -10f;
 
-            foreach (var weapon in weaponList)
-            {
-                weapon.Init(this, weaponList.IndexOf(weapon));
-                weapons.Add(weapon.type, weapon);
-            }
-
             fsmCtrl = new FSMCtrl(this);
             fsmCtrl.Add(FSMState.Idle);
             fsmCtrl.Add(FSMState.Attack);
             fsmCtrl.Add(FSMState.Death);
             fsmCtrl.SwitchState(FSMState.Idle);
+
+            // hpSlider = UI_HpSlider.CreateInstance();
         }
 
         public void LogicalUpdate()

@@ -13,8 +13,16 @@ namespace KillZombies.Unit
         {
             base.Init();
 
+            foreach (var weapon in weaponList)
+            {
+                weapon.Init(this, 1);
+                weapons.Add(weapon.type, weapon);
+            }
+
             moveSpeed = 1.8f;
             seekRange = 15f;
+            curHp = 100;
+            maxHp = 100;
         }
 
         public override void Move()
@@ -34,7 +42,7 @@ namespace KillZombies.Unit
 
             if (sqrDistance <= seekRange * seekRange && sqrDistance > coll.radius * coll.radius)
             {
-                Turn();
+                transform.forward = new Vector3(direction.x, 0, direction.z);
                 rb.position = transform.position + moveSpeed * Common.TickTime * transform.forward.normalized;
                 animator.SetFloat("Speed_f", moveSpeed);
             }
@@ -60,11 +68,6 @@ namespace KillZombies.Unit
             }
         }
 
-
-        private void Turn()
-        {
-            transform.forward = new Vector3(direction.x, 0, direction.z);
-        }
 
         public bool CanAttack()
         {

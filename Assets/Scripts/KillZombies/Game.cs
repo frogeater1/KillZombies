@@ -14,6 +14,7 @@ namespace KillZombies
         public CameraMgr cameraMgr;
         public UnitMgr unitMgr;
         public PoolMgr poolMgr;
+        public UIMgr uiMgr;
 
         //test
         public Unit.Unit testUnit;
@@ -28,8 +29,11 @@ namespace KillZombies
             inputMgr = GetComponent<InputMgr>();
             cameraMgr = GetComponent<CameraMgr>();
             unitMgr = GetComponent<UnitMgr>();
+            uiMgr = GetComponent<UIMgr>();
             poolMgr = GetComponent<PoolMgr>();
 
+            uiMgr.Init();
+            poolMgr.Init();
 
             Physics.simulationMode = SimulationMode.Script;
 

@@ -15,16 +15,10 @@ namespace FairyGUI
     public class Stage : Container
     {
         [Obsolete("Use size.y")]
-        public int stageHeight
-        {
-            get { return (int)_contentRect.height; }
-        }
+        public int stageHeight { get { return (int)_contentRect.height; } }
 
         [Obsolete("Use size.x")]
-        public int stageWidth
-        {
-            get { return (int)_contentRect.width; }
-        }
+        public int stageWidth { get { return (int)_contentRect.width; } }
 
         /// <summary>
         /// 
@@ -56,13 +50,11 @@ namespace FairyGUI
         List<DisplayObject> _focusInChain;
         List<Container> _focusHistory;
         Container _nextFocus;
-
         class CursorDef
         {
             public Texture2D texture;
             public Vector2 hotspot;
         }
-
         Dictionary<string, CursorDef> _cursors;
         string _currentCursor;
 
@@ -73,7 +65,6 @@ namespace FairyGUI
 #pragma warning restore 0649
 
         static Stage _inst;
-
         /// <summary>
         /// 
         /// </summary>
@@ -138,14 +129,20 @@ namespace FairyGUI
         /// 如果是false，表示是接受按键消息输入文字。常见于PC。
         /// 一般来说，不需要设置，底层会自动根据系统环境设置正确的值。
         /// </summary>
-        public static bool keyboardInput { get; set; }
+        public static bool keyboardInput
+        {
+            get; set;
+        }
 
         /// <summary>
         /// 
         /// </summary>
         public static bool isTouchOnUI
         {
-            get { return _inst != null && _inst.touchTarget != null; }
+            get
+            {
+                return _inst != null && _inst.touchTarget != null;
+            }
         }
 
         /// <summary>
@@ -154,7 +151,10 @@ namespace FairyGUI
         /// 1. compoistion cursor pos.
         /// 2. mouse wheel speed.
         /// </summary>
-        public static float devicePixelRatio { get; set; }
+        public static float devicePixelRatio
+        {
+            get; set;
+        }
 
         /// <summary>
         /// 
@@ -173,7 +173,7 @@ namespace FairyGUI
                 _touches[i] = new TouchInfo();
 
             bool isOSX = Application.platform == RuntimePlatform.OSXPlayer
-                         || Application.platform == RuntimePlatform.OSXEditor;
+                || Application.platform == RuntimePlatform.OSXEditor;
             if (Application.platform == RuntimePlatform.WindowsPlayer
                 || Application.platform == RuntimePlatform.WindowsEditor
                 || isOSX)
@@ -193,7 +193,7 @@ namespace FairyGUI
             SetSize(Screen.width, Screen.height);
             this.cachedTransform.localScale = new Vector3(StageCamera.DefaultUnitsPerPixel, StageCamera.DefaultUnitsPerPixel, StageCamera.DefaultUnitsPerPixel);
 
-            StageEngine engine = GameObject.FindFirstObjectByType<StageEngine>();
+            StageEngine engine = GameObject.FindObjectOfType<StageEngine>();
             if (engine != null)
                 UnityEngine.Object.Destroy(engine.gameObject);
 
@@ -267,7 +267,10 @@ namespace FairyGUI
                     _focused = null;
                 return _focused;
             }
-            set { SetFocus(value); }
+            set
+            {
+                SetFocus(value);
+            }
         }
 
         public void SetFocus(DisplayObject newFocus, bool byKey = false)
@@ -336,7 +339,6 @@ namespace FairyGUI
                     _focusOutChain.RemoveRange(i, _focusOutChain.Count - i);
                     break;
                 }
-
                 if (element.focusable)
                     _focusInChain.Add(element);
 
@@ -356,7 +358,6 @@ namespace FairyGUI
                             return;
                     }
                 }
-
                 _focusOutChain.Clear();
             }
 
@@ -373,7 +374,6 @@ namespace FairyGUI
                             return;
                     }
                 }
-
                 _focusInChain.Clear();
             }
 
@@ -551,7 +551,6 @@ namespace FairyGUI
                         break;
                 }
             }
-
             return result;
         }
 
@@ -759,7 +758,6 @@ namespace FairyGUI
                     else
                         SetFocus(_nextFocus);
                 }
-
                 _nextFocus = null;
             }
 
@@ -823,7 +821,6 @@ namespace FairyGUI
                         if (_touches[j].touchId == -1)
                             free = _touches[j];
                     }
-
                     if (touch == null)
                     {
                         touch = free;
@@ -1077,7 +1074,6 @@ namespace FairyGUI
                     touch.target.BubbleEvent("onTouchBegin", touch.evt);
                 }
             }
-
             if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(2))
             {
                 if (touch.began)
@@ -1127,7 +1123,6 @@ namespace FairyGUI
                         break;
                     }
                 }
-
                 if (touch == null)
                     continue;
 
@@ -1219,7 +1214,6 @@ namespace FairyGUI
                     _rollOutChain.RemoveRange(i, _rollOutChain.Count - i);
                     break;
                 }
-
                 _rollOverChain.Add(element);
 
                 element = element.parent;
@@ -1234,7 +1228,6 @@ namespace FairyGUI
                     if (element.stage != null)
                         element.DispatchEvent("onRollOut", null);
                 }
-
                 _rollOutChain.Clear();
             }
 
@@ -1247,7 +1240,6 @@ namespace FairyGUI
                     if (element.stage != null)
                         element.DispatchEvent("onRollOver", null);
                 }
-
                 _rollOverChain.Clear();
             }
 
@@ -1292,7 +1284,6 @@ namespace FairyGUI
                     break;
                 }
             }
-
             if (i == numChildren)
                 AddChild(target);
         }
@@ -1391,7 +1382,6 @@ namespace FairyGUI
                     || touchId != -1 && touch.touchId == touchId)
                     break;
             }
-
             if (touch.touchMonitors.IndexOf(target) == -1)
                 touch.touchMonitors.Add(target);
         }
@@ -1629,7 +1619,6 @@ namespace FairyGUI
                 }
                 else
                     clickCount = 1;
-
                 lastClickTime = Time.unscaledTime;
                 lastClickX = x;
                 lastClickY = y;
@@ -1649,7 +1638,6 @@ namespace FairyGUI
                     if (e != null)
                         e.GetChainBridges("onTouchEnd", sHelperChain, false);
                 }
-
                 target.BubbleEvent("onTouchEnd", evt, sHelperChain);
 
                 touchMonitors.Clear();

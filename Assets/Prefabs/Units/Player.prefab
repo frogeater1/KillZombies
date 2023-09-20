@@ -242,6 +242,7 @@ MonoBehaviour:
   moveSpeed: 0
   inputMovement: {x: 0, y: 0}
   jumpStrength: 3
+  cube: {fileID: 7196493060568812189, guid: 37fa7755cfb7d5041a265104334a9a92, type: 3}
 --- !u!136 &3243374060073390404
 CapsuleCollider:
   m_ObjectHideFlags: 0

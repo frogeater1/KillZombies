@@ -113,7 +113,7 @@ namespace FairyGUI
                     Stage.inst.HandleScreenSizeChanged(screenWidth, screenHeight, unitsPerPixel);
                 else
                 {
-                    UIContentScaler scaler = GameObject.FindFirstObjectByType<UIContentScaler>();
+                    UIContentScaler scaler = GameObject.FindObjectOfType<UIContentScaler>();
                     if (scaler != null)
                         scaler.ApplyChange();
                     else

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Unity.Entities;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,11 +9,21 @@ namespace KillZombies.Unit
         public Vector2 inputMovement;
         public float jumpStrength;
 
+        public GameObject cube;
+
         public override void Init()
         {
             base.Init();
             moveSpeed = 5f;
             jumpStrength = 5f;
+            curHp = 100;
+            maxHp = 100;
+
+            foreach (var weapon in weaponList)
+            {
+                weapon.Init(this, 0);
+                weapons.Add(weapon.type, weapon);
+            }
 
             //tmp
             curWeaponType = WeaponType.Gun;
@@ -36,7 +44,11 @@ namespace KillZombies.Unit
                     direction.y = 0;
             }
 
-            Turn();
+            if (inputMovement != Vector2.zero && fsmCtrl.curState == FSMState.Idle)
+            {
+                transform.forward = new Vector3(direction.x, 0, direction.z);
+            }
+
             rb.position = transform.position + moveSpeed * Common.TickTime * direction;
             animator.SetFloat("Speed_f", moveSpeed * direction.magnitude);
         }
@@ -59,11 +71,6 @@ namespace KillZombies.Unit
             }
         }
 
-        private void Turn()
-        {
-            if (inputMovement != Vector2.zero)
-                transform.forward = new Vector3(direction.x, 0, direction.z);
-        }
 
         public void Jump()
         {
@@ -75,7 +82,16 @@ namespace KillZombies.Unit
 
         public void Fire()
         {
-            fsmCtrl.SwitchState(FSMState.Attack);
+            if (fsmCtrl.curState == FSMState.Idle)
+            {
+                Debug.Log(Input.mousePosition);
+                if (Physics.Raycast(Game.Instance.cameraMgr.mainCamera.ScreenPointToRay(Input.mousePosition), out var hit, 1000, LayerMask.GetMask("Ground")))
+                {
+                    transform.forward = hit.point - transform.position;
+                }
+
+                fsmCtrl.SwitchState(FSMState.Attack);
+            }
         }
     }
 }

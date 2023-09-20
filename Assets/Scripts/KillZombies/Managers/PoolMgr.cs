@@ -8,29 +8,33 @@ namespace KillZombies.Managers
 {
     public class PoolMgr : MonoBehaviour
     {
-        public readonly Dictionary<MonoBehaviour, Pool<MonoBehaviour>> pools = new();
+        public Transform bulletContainer;
+        public Pool<Bullet> bulletPool;
 
-        public void SetPool(MonoBehaviour prefab, Func<MonoBehaviour> createFunc = null,
-            Action<MonoBehaviour> actionOnGet = null, Action<MonoBehaviour> actionOnRelease = null, Action<MonoBehaviour> actionOnDestroy = null,
-            bool collectionCheck = true, int defaultCapacity = 10, int maxSize = 10000, Transform defaultParent = null, Transform container = null)
+        public void Init()
         {
-            var pool = new Pool<MonoBehaviour>(prefab, createFunc, actionOnGet, actionOnRelease, actionOnDestroy, collectionCheck, defaultCapacity, maxSize,
-                defaultParent, container);
-            pools.Add(prefab, pool);
+            bulletPool = new Pool<Bullet> { container = bulletContainer };
         }
-
-
-        public T GetFromPool<T>(T prefab, Vector3 position = default, Quaternion rotation = default, Transform parent = null) where T : MonoBehaviour
-        {
-            return pools.TryGetValue(prefab, out var pool) ? pool.Get<T>(position, rotation, parent) : null;
-        }
-
 
         public void LogicalUpdate()
         {
-            foreach (var bullet in pools.Keys.OfType<Bullet>().SelectMany(prefab => pools[prefab].Instances()).Cast<Bullet>())
+            List<Bullet> removeList = new();
+
+            foreach (var bullet in bulletPool.Instances())
             {
-                bullet.LogicalUpdate();
+                if (bullet.destroyFlag)
+                {
+                    removeList.Add(bullet);
+                }
+                else
+                {
+                    bullet.LogicalUpdate();
+                }
+            }
+
+            foreach (var bullet in removeList)
+            {
+                bulletPool.Release(bullet);
             }
         }
     }

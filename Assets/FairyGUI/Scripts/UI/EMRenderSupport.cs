@@ -94,7 +94,6 @@ namespace FairyGUI
                     EMRenderTarget panel = _targets[i];
                     panel.EM_Update(_updateContext);
                 }
-
                 _updateContext.End();
             }
         }
@@ -108,7 +107,7 @@ namespace FairyGUI
                 return;
 
             UIConfig.ClearResourceRefs();
-            UIConfig[] configs = GameObject.FindObjectsByType<UIConfig>(FindObjectsSortMode.None);
+            UIConfig[] configs = GameObject.FindObjectsOfType<UIConfig>();
             foreach (UIConfig config in configs)
                 config.Load();
 
