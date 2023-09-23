@@ -12,7 +12,12 @@ namespace KillZombies.Managers
 
         private float pitch = 0;
 
-        
+        public void Init()
+        {
+            mainCamera = Camera.main;
+            virtualCamera = FindFirstObjectByType<CinemachineVirtualCamera>().GetComponent<CinemachineVirtualCamera>();
+        }
+
         public void Turn(Vector2 offset)
         {
             var euler = virtualCamera.transform.eulerAngles;
@@ -23,6 +28,5 @@ namespace KillZombies.Managers
                 Quaternion.Euler(Mathf.Clamp(euler.x + pitch, 0, 89f), euler.y + yaw,
                     euler.z);
         }
-        
     }
 }

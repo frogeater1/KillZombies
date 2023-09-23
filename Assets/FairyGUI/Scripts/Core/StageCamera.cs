@@ -18,34 +18,25 @@ namespace FairyGUI
         /// <summary>
         /// 
         /// </summary>
-        [NonSerialized]
-        public float unitsPerPixel = 0.02f;
+        [NonSerialized] public float unitsPerPixel = 0.02f;
 
-        [NonSerialized]
-        public Transform cachedTransform;
-        [NonSerialized]
-        public Camera cachedCamera;
+        [NonSerialized] public Transform cachedTransform;
+        [NonSerialized] public Camera cachedCamera;
 
-        [NonSerialized]
-        int screenWidth;
-        [NonSerialized]
-        int screenHeight;
-        [NonSerialized]
-        bool isMain;
-        [NonSerialized]
-        Display _display;
+        [NonSerialized] int screenWidth;
+        [NonSerialized] int screenHeight;
+        [NonSerialized] bool isMain;
+        [NonSerialized] Display _display;
 
         /// <summary>
         /// 
         /// </summary>
-        [NonSerialized]
-        public static Camera main;
+        [NonSerialized] public static Camera main;
 
         /// <summary>
         /// 
         /// </summary>
-        [NonSerialized]
-        public static int screenSizeVer = 1;
+        [NonSerialized] public static int screenSizeVer = 1;
 
         public const string Name = "Stage Camera";
         public const string LayerName = "UI";
@@ -104,6 +95,7 @@ namespace FairyGUI
                 unitsPerPixel = DefaultUnitsPerPixel;
                 cachedCamera.orthographicSize = screenHeight / 2 * unitsPerPixel;
             }
+
             cachedTransform.localPosition = new Vector3(cachedCamera.orthographicSize * screenWidth / screenHeight, -cachedCamera.orthographicSize);
 
             if (isMain)
@@ -113,7 +105,7 @@ namespace FairyGUI
                     Stage.inst.HandleScreenSizeChanged(screenWidth, screenHeight, unitsPerPixel);
                 else
                 {
-                    UIContentScaler scaler = GameObject.FindObjectOfType<UIContentScaler>();
+                    UIContentScaler scaler = GameObject.FindFirstObjectByType<UIContentScaler>();
                     if (scaler != null)
                         scaler.ApplyChange();
                     else

@@ -48,7 +48,9 @@ namespace KillZombies.Unit
             fsmCtrl.Add(FSMState.Death);
             fsmCtrl.SwitchState(FSMState.Idle);
 
-            // hpSlider = UI_HpSlider.CreateInstance();
+            hpSlider = UI_HpSlider.CreateInstance();
+            Game.Instance.uiMgr.uiMain.AddChild(hpSlider);
+            hpSlider.Init(this);
         }
 
         public void LogicalUpdate()
@@ -65,7 +67,7 @@ namespace KillZombies.Unit
 
         public bool IsGrounded()
         {
-            if (!Physics.Raycast(transform.position + coll.center, Vector3.down, out var hit))
+            if (!Physics.Raycast(transform.position + coll.center, Vector3.down, out var hit, 9999, 1 << LayerMask.NameToLayer("Ground")))
             {
                 Debug.LogError("不在地面正上方");
                 return false;
@@ -75,5 +77,11 @@ namespace KillZombies.Unit
         }
 
         public abstract void PlayAnim(FSMState state);
+
+        public void Hited(Weapon weapon)
+        {
+            curHp -= weapon.damage;
+            hpSlider.Refresh();
+        }
     }
 }

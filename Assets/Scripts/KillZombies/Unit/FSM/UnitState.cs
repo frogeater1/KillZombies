@@ -70,7 +70,7 @@ namespace KillZombies.Unit
         {
             if (fsmCtrl.unit is Zombie zombie)
             {
-                Debug.Log("enter idle");
+                zombie.destroyFlag = true;
             }
 
             fsmCtrl.unit.PlayAnim(FSMState.Idle);
@@ -82,6 +82,12 @@ namespace KillZombies.Unit
             if (fsmCtrl.curState != FSMState.Idle)
             {
                 Debug.Log("重入");
+                return;
+            }
+
+            if (fsmCtrl.unit.curHp <= 0)
+            {
+                fsmCtrl.SwitchState(FSMState.Death);
                 return;
             }
 
@@ -130,6 +136,13 @@ namespace KillZombies.Unit
                 Debug.Log("重入");
                 return;
             }
+
+            if (fsmCtrl.unit.curHp <= 0)
+            {
+                fsmCtrl.SwitchState(FSMState.Death);
+                return;
+            }
+
 
             if (fsmCtrl.unit is Character character)
             {

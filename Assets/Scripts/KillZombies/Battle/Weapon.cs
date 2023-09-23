@@ -71,7 +71,7 @@ namespace KillZombies.Unit
 
         public void Shoot()
         {
-            var bullet = Game.Instance.poolMgr.bulletPool.Get<Bullet>(bulletPrefab, transform.position, Quaternion.Euler(owner.transform.forward));
+            var bullet = Game.Instance.bulletPool.Get<Bullet>(bulletPrefab, transform.position, Quaternion.Euler(owner.transform.forward));
             bullet.Init(this);
         }
 
@@ -81,7 +81,7 @@ namespace KillZombies.Unit
 
         public void Work(Unit target)
         {
-            Debug.Log(target.name + "hited");
+            target.Hited(this);
         }
     }
 }

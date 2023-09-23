@@ -508,6 +508,9 @@ MonoBehaviour:
   gravity: 0
   direction: {x: 0, y: 0, z: 0}
   moveSpeed: 0
+  curHp: 0
+  maxHp: 0
+  destroyFlag: 0
   seekRange: 0
 --- !u!54 &-8047813897300467140
 Rigidbody:

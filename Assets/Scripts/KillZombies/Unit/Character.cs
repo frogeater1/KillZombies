@@ -9,11 +9,9 @@ namespace KillZombies.Unit
         public Vector2 inputMovement;
         public float jumpStrength;
 
-        public GameObject cube;
 
         public override void Init()
         {
-            base.Init();
             moveSpeed = 5f;
             jumpStrength = 5f;
             curHp = 100;
@@ -27,6 +25,8 @@ namespace KillZombies.Unit
 
             //tmp
             curWeaponType = WeaponType.Gun;
+
+            base.Init();
         }
 
         public override void Move()
@@ -41,7 +41,13 @@ namespace KillZombies.Unit
             else
             {
                 if (direction.y < 0)
+                {
                     direction.y = 0;
+                }
+
+                //fixme: 落地有时会低于地面
+                //落地的时候调整面向
+                transform.forward = new Vector3(transform.forward.x, 0, transform.forward.z);
             }
 
             if (inputMovement != Vector2.zero && fsmCtrl.curState == FSMState.Idle)

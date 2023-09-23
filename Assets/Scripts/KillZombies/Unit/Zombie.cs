@@ -7,12 +7,14 @@ namespace KillZombies.Unit
 {
     public class Zombie : Unit
     {
+        public bool destroyFlag;
+
+
         public float seekRange;
 
         public override void Init()
         {
-            base.Init();
-
+            destroyFlag = false;
             foreach (var weapon in weaponList)
             {
                 weapon.Init(this, 1);
@@ -23,6 +25,8 @@ namespace KillZombies.Unit
             seekRange = 15f;
             curHp = 100;
             maxHp = 100;
+
+            base.Init();
         }
 
         public override void Move()

@@ -9,6 +9,7 @@ namespace KillZombies.UI
         public static void BindAll()
         {
             UIObjectFactory.SetPackageItemExtension(UI_HpSlider.URL, typeof(UI_HpSlider));
+            UIObjectFactory.SetPackageItemExtension(UI_Main.URL, typeof(UI_Main));
         }
     }
 }
