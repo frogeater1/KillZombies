@@ -68,11 +68,6 @@ namespace KillZombies.Unit
 
         public override void OnEnter(object data)
         {
-            if (fsmCtrl.unit is Zombie zombie)
-            {
-                zombie.destroyFlag = true;
-            }
-
             fsmCtrl.unit.PlayAnim(FSMState.Idle);
         }
 
@@ -173,12 +168,15 @@ namespace KillZombies.Unit
 
     public class DeathState : UnitState
     {
+        public int endTime = 0;
+
         public DeathState(FSMCtrl c) : base(c)
         {
         }
 
         public override void OnEnter(object data)
         {
+            endTime = 120;
             fsmCtrl.unit.PlayAnim(FSMState.Death);
         }
 
@@ -188,6 +186,12 @@ namespace KillZombies.Unit
             {
                 Debug.Log("重入");
                 return;
+            }
+
+            endTime--;
+            if (endTime <= 0)
+            {
+                fsmCtrl.unit.Dead();
             }
         }
 

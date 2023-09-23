@@ -9,7 +9,6 @@ namespace KillZombies.Unit
     {
         public bool destroyFlag;
 
-
         public float seekRange;
 
         public override void Init()
@@ -70,6 +69,12 @@ namespace KillZombies.Unit
                     animator.CrossFadeInFixedTime("Zombie_Death", 0.1f);
                     break;
             }
+        }
+
+        public override void Dead()
+        {
+            destroyFlag = true;
+            base.Dead();
         }
 
 

@@ -51,6 +51,7 @@ namespace KillZombies.Unit
             hpSlider = UI_HpSlider.CreateInstance();
             Game.Instance.uiMgr.uiMain.AddChild(hpSlider);
             hpSlider.Init(this);
+            hpSlider.visible = true;
         }
 
         public void LogicalUpdate()
@@ -80,8 +81,14 @@ namespace KillZombies.Unit
 
         public void Hited(Weapon weapon)
         {
+            Game.Instance.damageNumberPrefab.Spawn(transform.position, -weapon.damage);
             curHp -= weapon.damage;
             hpSlider.Refresh();
+        }
+
+        public virtual void Dead()
+        {
+            hpSlider.visible = false;
         }
     }
 }

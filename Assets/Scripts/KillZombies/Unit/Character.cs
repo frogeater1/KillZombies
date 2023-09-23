@@ -77,6 +77,12 @@ namespace KillZombies.Unit
             }
         }
 
+        public override void Dead()
+        {
+            Debug.Log("Game Over");
+            base.Dead();
+        }
+
 
         public void Jump()
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DamageNumbersPro;
 using KillZombies.Managers;
 using KillZombies.Unit;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace KillZombies
 
         public Transform container;
         public Pool<Bullet> bulletPool;
+        public DamageNumber damageNumberPrefab;
 
         //tmp
         public float tick;
